@@ -1,9 +1,15 @@
-pragma solidity >=0.4.21 <0.6.0;
+pragma solidity^0.5.0;
 
 contract Controller {
-    string public message;
+    address owner;
+    string public command;
     
-    function send_command() public {
-        message = "echo 'hello'";
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    function send_command() public returns (string memory) {
+        command = "echo 'hello'";
+        return command;
     }
 }
