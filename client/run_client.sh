@@ -1,1 +1,1 @@
-export WEB_PROVIDER_URI="http://127.0.0.1:8545" && python client.py -a 0xb829a5df529F973d45E44534C37C1c6C86d2142d $@
+python client.py -a 0xf5f7AA571dE2DDFE9db4864630cfd6Ef1f0d9Cf0 $@
