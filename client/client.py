@@ -8,6 +8,7 @@ ABI_DIRECTORY = "../build/contracts/Controller.json"
 LOCAL_ACCOUNT = "account.json"
 W3 = Web3(HTTPProvider(PROVIDER))
 
+
 class Bot(object):
     """
     Our bot to interact with the smart contract
@@ -37,13 +38,17 @@ class Bot(object):
         """
         return self.contract.functions.get_command().call()
 
-    def join_self(self):
+    def join_network(self):
         """
         Joins this bot to the network
         """
+        is_joined = self.contract.functions.is_joined().call()
+        if is_joined:
+            print("Bot already joined network")
+            return
+        
         W3.personal.unlockAccount(self.account, self.pass_phrase, duration=15)
         tx_hash = self.contract.functions.join(self.ip).transact()
-        print(tx_hash)
         tx_reciept = W3.eth.waitForTransactionReceipt(tx_hash)
         print(tx_reciept)
     
@@ -98,6 +103,9 @@ if __name__ == '__main__':
 
     contract_address = args.address
     bot = Bot(contract_address)
+
+    bot.join_network()
+
     command = bot.retrieve_command()
     print(command)
-    bot.join_self()
+
