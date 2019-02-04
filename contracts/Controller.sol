@@ -12,19 +12,20 @@ contract Controller {
         bool initialized;    // if this bot has initialized yet
     }
 
-    mapping(address => Bot) public bots;
+    mapping(address => Bot) bots;
 
     constructor() public {
         owner = msg.sender;
     }
 
     /// @notice Sets the command for the bots to pull down
+    /// @param new_command The new command to be stored
     function set_command(string memory new_command) public {
         require(msg.sender == owner, "Must be owner");
         command = new_command;
     }
 
-    /// @notice Gets the current command stored for the bots to run
+    /// @notice Gets the current command stored for the bot to run
     /// @return The current stored command
     function get_command() public view returns (string memory) {
         require(bots[msg.sender].initialized, "Must be part of network");
@@ -44,9 +45,10 @@ contract Controller {
     }
 
     /// @notice Checks if the sender address is joined as a bot
+    /// @param bot_address The address to check if it belongs to a bot
     /// @return True if join, false if not
-    function is_joined() public view returns (bool) {
-        return bots[msg.sender].initialized;
+    function is_joined(address bot_address) public view returns (bool) {
+        return bots[bot_address].initialized;
     }
 
     function fund() public payable { }

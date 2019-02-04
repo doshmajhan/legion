@@ -42,7 +42,7 @@ class Bot(object):
         """
         Joins this bot to the network
         """
-        is_joined = self.contract.functions.is_joined().call()
+        is_joined = self.contract.functions.is_joined(self.account).call()
         if is_joined:
             print("Bot already joined network")
             return
@@ -51,7 +51,7 @@ class Bot(object):
         tx_hash = self.contract.functions.join(self.ip).transact()
         tx_reciept = W3.eth.waitForTransactionReceipt(tx_hash)
         print(tx_reciept)
-    
+
     def init_account(self):
         """
         Retrieves account info from LOCAL_ACCOUNT file. Will create a new account
